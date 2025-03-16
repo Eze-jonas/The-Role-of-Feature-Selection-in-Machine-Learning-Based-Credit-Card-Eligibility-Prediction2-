@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Prediction Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Credit Card Eligibility Prediction</h1>
+        <h2>Model: Decision Tree</h2>
+
+        <!-- Login Section -->
+        <h3>Login</h3>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter password" required><br>
+
+            <button type="button" onclick="loginAndStoreToken()">Login</button>
+        </form>
+        <p id="login-status">Not logged in</p>
+
+        <!-- Prediction Form -->
+        <h3>Enter Customer Information</h3>
+        <form id="prediction-form">
+
+            <!-- Dropdowns for Binary Variables -->
+            <label for="Owned_Car">Do you own a car?</label>
+            <select id="Owned_Car">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Owned_Email">Do you have an email?</label>
+            <select id="Owned_Email">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+             <label for="Applicant_Age">Applicant Age:</label>
+            <input type="number" id="Applicant_Age" step="any" required><br>
+
+             <label for="Years_of_Working">Years of Working:</label>
+            <input type="number" id="Years_of_Working" step="any" required><br>
+
+            <label for="Total_Bad_Debt">Total Bad Debt:</label>
+            <input type="number" id="Total_Bad_Debt" step="any" required><br>
+
+             <label for="Total_Good_Debt">Total Good Debt:</label>
+            <input type="number" id="Total_Good_Debt" step="any" required><br>
+
+            <label for="Income_Type_Pensioner">Income Type (Pensioner):</label>
+            <select id="Income_Type_Pensioner">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Income_Type_State_servant">Income Type (State Servant):</label>
+            <select id="Income_Type_State_servant">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Family_Status_Married">Are you married?</label>
+            <select id="Family_Status_Married">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Housing_Type_Office_apartment">Housing Type (Office Apartment):</label>
+            <select id="Housing_Type_Office_apartment">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Housing_Type_Rented_apartment">Housing Type (Rented Apartment):</label>
+            <select id="Housing_Type_Rented_apartment">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+
+            <label for="Job_Title_Cooking_staff">Job Title (Cooking Staff):</label>
+            <select id="Job_Title_Cooking_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Core_staff">Job Title (Core Staff):</label>
+            <select id="Job_Title_Core_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_High_skill_tech_staff">Job Title (High Skill Tech Staff):</label>
+            <select id="Job_Title_High_skill_tech_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Laborers">Job Title (Laborers):</label>
+            <select id="Job_Title_Laborers">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Low_skill_Laborers">Job Title (Low Skill Laborers):</label>
+            <select id="Job_Title_Low_skill_Laborers">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Medicine_staff">Job Title (Medicine Staff):</label>
+            <select id="Job_Title_Medicine_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Private_service_staff">Job Title (Private service staff):</label>
+            <select id="Job_Title_Private_service_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Sales_staff">Job Title (Sales staff):</label>
+            <select id="Job_Title_Sales_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Secretaries">Job Title (Secretaries):</label>
+            <select id="Job_Title_Secretaries">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Waiters_barmen_staff">Job Title (Waiters/barmen staff):</label>
+            <select id="Job_Title_Waiters_barmen_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <h3>Prediction: <span id="prediction-result">Waiting...</span></h3>
+    </div>
+
+    <script>
+        async function loginAndStoreToken() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "username": username, "password": password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("jwt_token", data.access_token);
+                    document.getElementById("login-status").innerText = "Logged in as: " + username;
+                } else {
+                    alert("Login failed: " + data.message);
+                }
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        }
+
+        document.getElementById("prediction-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            let data = {};
+            document.querySelectorAll("#prediction-form select, #prediction-form input").forEach(input => {
+                data[input.id] = input.type === "number" ? parseFloat(input.value) : (input.value === "Yes" ? 1.0 : 0.0);
+            });
+
+            const token = localStorage.getItem("jwt_token");
+            if (!token) {
+                alert("Please log in first.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                document.getElementById("prediction-result").innerText = result.Status;
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        });
+    </script>
+
+</body>
+</html>
