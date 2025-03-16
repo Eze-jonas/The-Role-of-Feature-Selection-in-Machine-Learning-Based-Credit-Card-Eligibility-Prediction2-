@@ -1,0 +1,27 @@
+# 🔹 Ignore the .env file (contains secrets)
+.env
+
+# 🔹 Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# 🔹 Ignore virtual environment folders
+venv/
+env/
+
+# 🔹 Ignore system-specific files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# 🔹 Ignore log files
+*.log
+
+# 🔹 Ignore IDE/editor-specific files
+.vscode/
+.idea/
+*.swp
+
+# 🔹 Ignore database files (if using SQLite)
+*.sqlite3
+*.db
