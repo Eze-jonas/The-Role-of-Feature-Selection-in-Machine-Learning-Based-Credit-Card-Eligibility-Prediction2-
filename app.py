@@ -23,6 +23,52 @@ except Exception as e:
     print(f"Error loading model: {e}")
     model = None
 
+# Absolute path to your saved columns folder
+saved_columns_path = r'C:\Users\USER\Documents\Computing_Project2\saved_columns'
+
+# Load transformation objects with the absolute path
+education_encoder = joblib.load(os.path.join(saved_columns_path, 'label_encoding_Education_Type.pkl'))
+education_scaler = joblib.load(os.path.join(saved_columns_path, 'scaler_Education_Type.pkl'))
+tbd_transformer = joblib.load(os.path.join(saved_columns_path, 'transformer_Total_Bad_Debt.pkl'))
+tbd_scaler = joblib.load(os.path.join(saved_columns_path, 'robust_scaler_Total_Bad_Debt.pkl'))
+tgd_transformer = joblib.load(os.path.join(saved_columns_path, 'transformer_Total_Good_Debt.pkl'))
+
+# Load GA-selected features with the absolute path
+ga_selected_features_path = os.path.join(saved_columns_path, 'ga_selected_features.pkl')
+if os.path.exists(ga_selected_features_path):
+    ga_selected_features = joblib.load(ga_selected_features_path).get("selected_features", [])
+else:
+    print("Warning: GA-selected features file not found. Using default features.")
+    ga_selected_features = [
+        "Owned_Realty", "Education_Type", "Owned_Mobile_Phone", "Total_Bad_Debt", "Total_Good_Debt",
+        "Applicant_Gender_M", "Income_Type_Pensioner", "Income_Type_Student", "Income_Type_Working",
+        "Family_Status_Married", "Family_Status_Separated", "Family_Status_Single / not married",
+        "Housing_Type_Municipal apartment", "Housing_Type_With parents", "Job_Title_Cleaning staff",
+        "Job_Title_Core staff", "Job_Title_High skill tech staff", "Job_Title_IT staff", "Job_Title_Laborers",
+        "Job_Title_Managers", "Job_Title_Medicine staff", "Job_Title_Realty agents", "Job_Title_Secretaries",
+        "Job_Title_Security staff"
+    ]
+
+# Expected Features (from training)
+expected_features = [
+    "Owned_Realty", "Education_Type", "Owned_Mobile_Phone", "Total_Bad_Debt", "Total_Good_Debt",
+    "Applicant_Gender_M", "Income_Type_Pensioner", "Income_Type_Student", "Income_Type_Working",
+    "Family_Status_Married", "Family_Status_Separated", "Family_Status_Single / not married",
+    "Housing_Type_Municipal apartment", "Housing_Type_With parents", "Job_Title_Cleaning staff",
+    "Job_Title_Core staff", "Job_Title_High skill tech staff", "Job_Title_IT staff", "Job_Title_Laborers",
+    "Job_Title_Managers", "Job_Title_Medicine staff", "Job_Title_Realty agents", "Job_Title_Secretaries",
+    "Job_Title_Security staff"
+]
+
+binary_columns = [
+    "Owned_Realty", "Owned_Mobile_Phone", "Applicant_Gender_M", "Income_Type_Pensioner",
+    "Income_Type_Student", "Income_Type_Working", "Family_Status_Married", "Family_Status_Separated",
+    "Family_Status_Single / not married", "Housing_Type_Municipal apartment", "Housing_Type_With parents",
+    "Job_Title_Cleaning staff", "Job_Title_Core staff", "Job_Title_High skill tech staff", "Job_Title_IT staff",
+    "Job_Title_Laborers", "Job_Title_Managers", "Job_Title_Medicine staff", "Job_Title_Realty agents",
+    "Job_Title_Secretaries", "Job_Title_Security staff"
+]
+
 # JWT Configuration
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "fallback_secret")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=6)
@@ -30,27 +76,6 @@ jwt = JWTManager(app)
 
 # Dummy users (replace with database)
 users = {"admin": "password123"}
-
-# Expected Features (from training)
-expected_features = [
-    "Owned_Car", "Owned_Email", "Applicant_Age", "Years_of_Working",
-    "Total_Bad_Debt", "Total_Good_Debt", "Income_Type_Pensioner", "Income_Type_State servant",
-    "Family_Status_Married", "Housing_Type_Office apartment", "Housing_Type_Rented apartment",
-    "Job_Title_Cooking staff", "Job_Title_Core staff", "Job_Title_High skill tech staff",
-    "Job_Title_Laborers", "Job_Title_Low-skill Laborers", "Job_Title_Medicine staff",
-    "Job_Title_Private service staff", "Job_Title_Sales staff", "Job_Title_Secretaries",
-    "Job_Title_Waiters/barmen staff"
-]
-
-# Binary columns to be converted
-binary_columns = [
-    "Owned_Car", "Owned_Email", "Income_Type_Pensioner", "Income_Type_State servant",
-    "Family_Status_Married", "Housing_Type_Office apartment", "Housing_Type_Rented apartment",
-    "Job_Title_Cooking staff", "Job_Title_Core staff", "Job_Title_High skill tech staff",
-    "Job_Title_Laborers", "Job_Title_Low-skill Laborers", "Job_Title_Medicine staff",
-    "Job_Title_Private service staff", "Job_Title_Sales staff", "Job_Title_Secretaries",
-    "Job_Title_Waiters/barmen staff"
-]
 
 # Route for home page
 @app.route("/")
@@ -85,16 +110,28 @@ def predict():
             if col in data:
                 data[col] = 1.0 if str(data[col]).strip().lower() == "yes" else 0.0
 
-        # Convert to DataFrame
-        df = pd.DataFrame([data])
+        # Apply label encoding and standardization to Education_Type
+        if "Education_Type" in data:
+            education_value = data["Education_Type"]
+            if education_value in education_encoder['encoding_mapping']:
+                encoded_value = education_encoder['encoding_mapping'][education_value]
+                data["Education_Type"] = education_scaler.transform([[encoded_value]])[0][0]
+            else:
+                return jsonify({"error": "Invalid Education_Type value"}), 400
 
-        # Ensure all expected features exist
-        missing_features = list(set(expected_features) - set(df.columns))
-        for col in missing_features:
-            df[col] = 0  # Default missing features to 0
+        # Apply Winsorization, Yeo-Johnson transformation, and robust scaling to Total_Bad_Debt
+        if "Total_Bad_Debt" in data:
+            tbd_value = min(float(data["Total_Bad_Debt"]), 5)  # Clipping at 5
+            transformed_value = tbd_transformer.transform([[tbd_value]])[0][0]
+            data["Total_Bad_Debt"] = tbd_scaler.transform([[transformed_value]])[0][0]
 
-        # Ensure correct column order
-        df = df[expected_features]
+        # Apply Yeo-Johnson transformation to Total_Good_Debt
+        if "Total_Good_Debt" in data:
+            tgd_value = float(data["Total_Good_Debt"])
+            data["Total_Good_Debt"] = tgd_transformer.transform([[tgd_value]])[0][0]
+
+        # Convert to DataFrame and ensure correct column order
+        df = pd.DataFrame([data]).reindex(columns=expected_features, fill_value=0)
 
         # Make prediction
         prediction = model.predict(df)[0]
@@ -109,8 +146,8 @@ def predict():
         return jsonify({"error": str(e)}), 400
 
 # Run Flask app
-#if __name__ == "__main__":
-    #app.run(debug=True)
-
 if __name__ == "__main__":
-        app.run(host="0.0.0.0", port=int(os.getenv("PORT", 10000)), deburg = False)
+    app.run(debug=True)
+
+#if __name__ == "__main__":
+    #app.run(host="0.0.0.0", port=int(os.getenv("PORT", 10000)), debug=False)

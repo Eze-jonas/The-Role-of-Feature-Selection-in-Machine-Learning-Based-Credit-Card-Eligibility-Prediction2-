@@ -30,133 +30,165 @@
         <form id="prediction-form">
 
             <!-- Dropdowns for Binary Variables -->
-            <label for="Owned_Car">Do you own a car?</label>
-            <select id="Owned_Car">
+            <label for="Owned_Realty">1. Do you own a realty?</label>
+            <select id="Owned_Realty">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Owned_Email">Do you have an email?</label>
-            <select id="Owned_Email">
+            <label for="education_type">2. What is your education type:</label>
+        <select id="education_type" name="Education_Type" required>
+            <option value="" selected disabled>-- Select an option --</option>
+            <option value="Lower secondary">Lower secondary</option>
+            <option value="Secondary / secondary special">Secondary / secondary special</option>
+            <option value="Incomplete higher">Incomplete higher</option>
+            <option value="Higher education">Higher education</option>
+            <option value="Academic degree">Academic degree</option>
+        </select><br><br>
+
+            <label for="Owned_Mobile_Phone">3. Do you have a mobile phone?</label>
+            <select id="Owned_Mobile_Phone">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-             <label for="Applicant_Age">Applicant Age:</label>
-            <input type="number" id="Applicant_Age" step="any" required><br>
-
-             <label for="Years_of_Working">Years of Working:</label>
-            <input type="number" id="Years_of_Working" step="any" required><br>
-
-            <label for="Total_Bad_Debt">Total Bad Debt:</label>
+            <label for="Total_Bad_Debt">4. What is your total bad debt:</label>
             <input type="number" id="Total_Bad_Debt" step="any" required><br>
 
-             <label for="Total_Good_Debt">Total Good Debt:</label>
+             <label for="Total_Good_Debt">5. What is your total good debt:</label>
             <input type="number" id="Total_Good_Debt" step="any" required><br>
 
-            <label for="Income_Type_Pensioner">Income Type (Pensioner):</label>
+            <label for="Applicant_Gender_M">6. is your gender male?:</label>
+            <select id="Applicant_Gender_M">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Income_Type_Pensioner">7. Are you a pensioner?:</label>
             <select id="Income_Type_Pensioner">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Income_Type_State_servant">Income Type (State Servant):</label>
-            <select id="Income_Type_State_servant">
+            <label for="Income_Type_Student">8. Are you a student?</label>
+            <select id="Income_Type_Student">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Family_Status_Married">Are you married?</label>
+            <label for="Income_Type_Working">9. Do you have a job?:</label>
+            <select id="Income_Type_Working">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Family_Status_Married">10. Are you married?:</label>
             <select id="Family_Status_Married">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Housing_Type_Office_apartment">Housing Type (Office Apartment):</label>
-            <select id="Housing_Type_Office_apartment">
+
+            <label for="Family_Status_Separated">11. Were you married but separated now?:</label>
+            <select id="Family_Status_Separated">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Housing_Type_Rented_apartment">Housing Type (Rented Apartment):</label>
-            <select id="Housing_Type_Rented_apartment">
+            <label for="Family_Status_Single_not_married">12. Are you single?:</label>
+            <select id="Family_Status_Single_not_married">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-
-            <label for="Job_Title_Cooking_staff">Job Title (Cooking Staff):</label>
-            <select id="Job_Title_Cooking_staff">
+            <label for="Housing_Type_Municipal_apartment">13. Are you living in a municipal apartment?:</label>
+            <select id="Housing_Type_Municipal_apartment">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_Core_staff">Job Title (Core Staff):</label>
+            <label for="Housing_Type_With_parents">14. Are you living with your parents?:</label>
+            <select id="Housing_Type_With_parents">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Cleaning_staff">15. Are you a cleaning staff?:</label>
+            <select id="Job_Title_Cleaning_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Core_staff">16. Are you a core staff?:</label>
             <select id="Job_Title_Core_staff">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_High_skill_tech_staff">Job Title (High Skill Tech Staff):</label>
+            <label for="Job_Title_High_skill_tech_staff">17. Are you a high skill tech staff?:</label>
             <select id="Job_Title_High_skill_tech_staff">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_Laborers">Job Title (Laborers):</label>
+            <label for="Job_Title_IT_staff">18. Are you an IT staff?:</label>
+            <select id="Job_Title_IT_staff">
+                <option value="" selected disabled>-- Select an option --</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select><br>
+
+            <label for="Job_Title_Laborers">19. Are you a laborer staff?:</label>
             <select id="Job_Title_Laborers">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_Low_skill_Laborers">Job Title (Low Skill Laborers):</label>
-            <select id="Job_Title_Low_skill_Laborers">
+            <label for="Job_Title_Managers">20. Are you a manager staff?:</label>
+            <select id="Job_Title_Managers">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_Medicine_staff">Job Title (Medicine Staff):</label>
+            <label for="Job_Title_Medicine_staff">21. Are you a medical staff?:</label>
             <select id="Job_Title_Medicine_staff">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_Private_service_staff">Job Title (Private service staff):</label>
-            <select id="Job_Title_Private_service_staff">
+            <label for="Job_Title_Realty_agents">22. Are you a realty agent?:</label>
+            <select id="Job_Title_Realty_agents">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_Sales_staff">Job Title (Sales staff):</label>
-            <select id="Job_Title_Sales_staff">
-                <option value="" selected disabled>-- Select an option --</option>
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-            </select><br>
-
-            <label for="Job_Title_Secretaries">Job Title (Secretaries):</label>
+            <label for="Job_Title_Secretaries">23. Are you a secretary staff?:</label>
             <select id="Job_Title_Secretaries">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select><br>
 
-            <label for="Job_Title_Waiters_barmen_staff">Job Title (Waiters/barmen staff):</label>
-            <select id="Job_Title_Waiters_barmen_staff">
+            <label for="Job_Title_Security_staff">24. Are you a security staff?:</label>
+            <select id="Job_Title_Security_staff">
                 <option value="" selected disabled>-- Select an option --</option>
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
