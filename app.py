@@ -24,7 +24,7 @@ except Exception as e:
     model = None
 
 # Absolute path to your saved columns folder
-saved_columns_path = r'C:\Users\USER\Documents\Computing_Project2\saved_columns'
+saved_columns_path = os.getenv("SAVED_COLUMNS_PATH", "saved_columns")
 
 # Load transformation objects with the absolute path
 education_encoder = joblib.load(os.path.join(saved_columns_path, 'label_encoding_Education_Type.pkl'))
@@ -145,7 +145,7 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-# Run Flask app
+ #Run Flask app
 if __name__ == "__main__":
     app.run(debug=True)
 
